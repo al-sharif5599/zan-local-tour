@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "348700045749",
+    "project_id": "zan-local-tour",
+    "storage_bucket": "zan-local-tour.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348700045749:android:c0a2844a864e826fb469fc",
+        "android_client_info": {
+          "package_name": "com.zanlocaltour.appstore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQCXQzZ-MnbEpJobPHTDxyD5B5wu3laNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
