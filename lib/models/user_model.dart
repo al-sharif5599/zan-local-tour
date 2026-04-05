@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-enum UserRole { local, admin, chwa }
+enum UserRole { local, admin, guest, chwa }
 
 class AppUser {
   final String id;
@@ -20,7 +20,9 @@ class AppUser {
     return AppUser(
       id: doc.id,
       email: data['email'] ?? '',
-      role: UserRole.values.firstWhere((r) => r.toString() == 'UserRole.${data['role']}'),
+      role: UserRole.values.firstWhere(
+        (r) => r.toString() == 'UserRole.${data['role']}',
+      ),
       language: data['language'],
     );
   }

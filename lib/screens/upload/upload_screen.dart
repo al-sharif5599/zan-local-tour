@@ -31,18 +31,50 @@ class _UploadScreenState extends State<UploadScreen> {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            TextField(controller: _titleController, decoration: InputDecoration(labelText: 'Title')),
-            TextField(controller: _descController, decoration: InputDecoration(labelText: 'Description')),
+            TextField(
+              controller: _titleController,
+              decoration: InputDecoration(labelText: 'Title'),
+            ),
+            TextField(
+              controller: _descController,
+              decoration: InputDecoration(labelText: 'Description'),
+            ),
             DropdownButton<String>(
               value: _language,
-              items: ['en', 'sw'].map((l) => DropdownMenuItem(value: l, child: Text(l))).toList(),
+              items: [
+                'en',
+                'sw',
+              ].map((l) => DropdownMenuItem(value: l, child: Text(l))).toList(),
               onChanged: (v) => setState(() => _language = v!),
             ),
-            ElevatedButton(onPressed: _getLocation, child: Text('Get Location')),
-            if (_location != null) Text('Location: ${_location!.latitude}, ${_location!.longitude}'),
-            ElevatedButton(onPressed: _pickMedia, child: Text('Pick Media')),
             ElevatedButton(
-              onPressed: _mediaUrls.isNotEmpty && _titleController.text.isNotEmpty ? _submit : null,
+              onPressed: _getLocation,
+              child: Text('Get Location'),
+            ),
+            if (_location != null)
+              Text('Location: ${_location!.latitude}, ${_location!.longitude}'),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: _pickImage,
+                    child: Text('Photo'),
+                  ),
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: _pickVideo,
+                    child: Text('Short Video'),
+                  ),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              onPressed:
+                  _mediaUrls.isNotEmpty && _titleController.text.isNotEmpty
+                  ? _submit
+                  : null,
               child: Text('Submit'),
             ),
           ],
@@ -60,7 +92,11 @@ class _UploadScreenState extends State<UploadScreen> {
     final picker = ImagePicker();
     final image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      final url = await StorageService().uploadMedia(File(image.path), user!.id, 'images');
+      final url = await StorageService().uploadMedia(
+        File(image.path),
+        user!.id,
+        'images',
+      );
       setState(() => _mediaUrls.add(url));
     }
   }
@@ -72,6 +108,7 @@ class _UploadScreenState extends State<UploadScreen> {
       userId: user!.id,
       title: _titleController.text,
       description: _descController.text,
+      mediaUrls: _mediaUrls,
       location: GeoPoint(_location!.latitude, _location!.longitude),
       language: _language,
       createdAt: Timestamp.now(),

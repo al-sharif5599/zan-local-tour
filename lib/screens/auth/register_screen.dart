@@ -37,20 +37,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
             SizedBox(height: 16),
             DropdownButton<UserRole>(
               value: _role,
-              items: UserRole.values.map((r) => DropdownMenuItem(value: r, child: Text(r.toString().split('.').last.toUpperCase()))).toList(),
+              items: UserRole.values
+                  .map(
+                    (r) => DropdownMenuItem(
+                      value: r,
+                      child: Text(r.toString().split('.').last.toUpperCase()),
+                    ),
+                  )
+                  .toList(),
               onChanged: (v) => setState(() => _role = v!),
             ),
             SizedBox(height: 16),
             DropdownButton<String>(
               value: _language,
-              items: ['en', 'sw'].map((l) => DropdownMenuItem(value: l, child: Text(l.toUpperCase()))).toList(),
+              items: ['en', 'sw']
+                  .map(
+                    (l) => DropdownMenuItem(
+                      value: l,
+                      child: Text(l.toUpperCase()),
+                    ),
+                  )
+                  .toList(),
               onChanged: (v) => setState(() => _language = v!),
             ),
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
-                Provider.of<AuthProvider>(context, listen: false)
-                    .register(_emailController.text, _passController.text, _role!, _language);
+                Provider.of<AuthProvider>(context, listen: false).register(
+                  _emailController.text,
+                  _passController.text,
+                  _role!.toString().split('.').last,
+                  _language,
+                );
                 Navigator.pop(context);
               },
               child: Text('Register'),
